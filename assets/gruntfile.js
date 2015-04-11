@@ -45,7 +45,6 @@ module.exports = function(grunt) {
 			public 			: '../public',
 			publicCss 		: '../public/css',
 			publicJs		: '../public/js',
-			publicJsAdmin	: '../public/js/admin',
 			publicImg		: '../public/img',
 			publicFav		: '../public/favicons',
 			publicFonts		: '../public/fonts',
@@ -81,17 +80,6 @@ module.exports = function(grunt) {
 				files: {
 				    '<%= dirs.publicCss %>/style.min.css': 'sass/style.scss'
 				}
-			},
-			admin 	: {
-				options : {
-					outputStyle 	: 'compressed',
-					sourcemap 		: true
-				},
-				files: {
-				    '<%= dirs.publicCss %>/admin.min.css'	: 'sass/admin.scss',
-				    '<%= dirs.publicCss %>/editor.min.css'	: 'sass/editor.scss',
-				    '<%= dirs.publicCss %>/login.min.css'	: 'sass/login.scss',
-				}
 			}
 		},
 
@@ -126,13 +114,6 @@ module.exports = function(grunt) {
 				],
 				dest 	: '<%= dirs.publicJs %>/all.min.js'
 			},
-			adminBuild 	: {
-				src 	: [
-					'<%= dirs.jsLib %>/jquery.js ',
-					'<%= dirs.jsAdmin %>/login.js'
-				],
-				dest 	: '<%= dirs.jsAdmin %>/loginbuild.js'
-			}
 		},
 
 		// TASK : minify scripts
@@ -146,18 +127,6 @@ module.exports = function(grunt) {
 					cwd 	: '<%= dirs.jsBuild %>',
 					src 	: 'all.min.js',
 					dest 	: '<%= dirs.publicJs %>',
-					ext 	: '.min.js'
-				}]
-			},
-			adminjs: {
-				options : {
-					sourceMap: true
-				},
-				files: [{
-					expand 	: true,
-					cwd 	: '<%= dirs.jsAdmin %>',
-					src 	: ['*.js', '!login.js'],
-					dest 	: '<%= dirs.publicJsAdmin %>',
 					ext 	: '.min.js'
 				}]
 			}
@@ -185,7 +154,7 @@ module.exports = function(grunt) {
 				files: [{
 					expand: true,
 					cwd: '<%= dirs.img %>',
-					src: [' **/*.{png,jpg,gif,.svg}'],
+					src: [' **/*.{png,jpg,gif,svg}'],
 					dest: '<%= dirs.publicImg %>'
 				}]
 			},
@@ -243,7 +212,7 @@ module.exports = function(grunt) {
 		        files: {
 		            'jquery.js'			: 'jquery/dist/jquery.js',
 		            'underscore.js'		: 'underscore/underscore.js',
-		            'velocity.js'		: 'velocity/:main',
+		            'velocity.js'		: 'velocity/jquery.velocity.js',
 		            'velocityui.js'		: 'velocity/velocity.ui.js',
 		            // 'fastclick.js'		: 'fastclick/:main'
 		        }
@@ -292,10 +261,7 @@ module.exports = function(grunt) {
 				include : ['devcss', 'jsdev','images']
 			},
 			production 	: {
-				include : ['css','jsScripts','images','adminCss','adminJs' ]
-			},
-			admin 		: {
-				include : ['adminCss','adminJs']
+				include : ['css','jsScripts','images' ]
 			}
 		},
 
@@ -328,19 +294,7 @@ module.exports = function(grunt) {
 			jsdev 		: {
 				files 	: ['<%= dirs.jsScripts %>/main.js'],
 				tasks 	: ['concat:devBuild']
-			},
-			adminCss  	: {
-				options: {
-					livereload 	: true, // will require the browser extension to be installed
-				    spawn 		: true // may cause errors
-				},
-				files 	: ['<%= dirs.sass %>/*.scss','<%= dirs.sass %>/**/*.scss','!<%= dirs.sass %>/style.scss' ],
-				tasks 	: ['sass:admin']
-			},
-			adminJs	: {
-				files 	: '<%= dirs.admin %>/*.js',
-				tasks 	: ['concat:adminBuild', 'uglify:adminjs']
-			},
+			}
 		},
 
 		// RUN BUILD TASKS CONCURRENTLY
@@ -349,16 +303,16 @@ module.exports = function(grunt) {
 				tasks : ['sass:style', 'concat:doInc', 'imagemin', 'copy']
 			},
 			productionBuild : {
-				tasks : ['sass:admin', 'concat:doBuild', 'concat:adminBuild']
+				tasks : [ 'concat:doBuild']
 			},
 			devPrep : {
 				tasks : ['sass:devStyle', 'concat:doInc', 'imagemin', 'copy']
 			},
 			devBuild : {
-				tasks : ['sass:admin', 'concat:devBuild']
+				tasks : [ 'concat:devBuild']
 			},
 			adminPrep : {
-				tasks : ['sass:admin', 'concat:adminBuild']
+				tasks : ['concat:adminBuild']
 			}
 
 		},
@@ -430,7 +384,6 @@ module.exports = function(grunt) {
 	// Public
 	grunt.registerTask('default', ['setup', 'focus:production']);	//  Default Tasks to run on start
 	grunt.registerTask('dev' , ['devsetup', 'focus:dev']);
-	grunt.registerTask('admin' , ['concurrent:adminPrep', 'uglify:adminjs', 'focus:admin']); // WordPress Specific
 	grunt.registerTask('imgoptimize', ['imagemin:doimages']);
 	grunt.registerTask('favoptimize', ['imagemin:dofav', 'copy:fav']);
 	grunt.registerTask('cleanit', ['clean']);

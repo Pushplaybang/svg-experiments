@@ -18,11 +18,20 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <img src="public/img/rough-phone.svg" alt="">
-
+        <!-- <img src="public/img/rough-phone.svg" alt="">  -->
+		<div id="draw_camera"></div>
         
 
         <script src="public/js/all.min.js"></script>
-
+		
+		<script>
+		jQuery(document).ready(function($) {
+			new Vivus('draw_camera', {
+				type: 'delayed', 
+				duration: 200,
+				file: 'public/img/camera.svg'
+			}, function() {});
+		});
+		</script>
     </body>
 </html>

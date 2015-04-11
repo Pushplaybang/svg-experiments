@@ -212,7 +212,7 @@ module.exports = function(grunt) {
 		        files: {
 		            'jquery.js'			: 'jquery/dist/jquery.js',
 		            'underscore.js'		: 'underscore/underscore.js',
-		            'velocity.js'		: 'velocity/jquery.velocity.js',
+		            'velocity.js'		: 'velocity/velocity.js',
 		            'velocityui.js'		: 'velocity/velocity.ui.js',
 		            // 'fastclick.js'		: 'fastclick/:main'
 		        }
@@ -224,7 +224,7 @@ module.exports = function(grunt) {
 		        files: {
 		            // 'bigSlide.js'			: 'bigSlide/dist/bigSlide.js',
 		            'fitvids.js'			: 'fitvids/:main',
-		            // 'cycle2.js'			: 'jquery-cycle2/:main',  //
+		            'vivus.js'				: 'vivus/:main',  //  
 		            // 'unveil.js'				: 'jquery-unveil/:main',
 		            // 'magnific-popup.js'		: 'magnific-popup/dist/jquery.magnific-popup.js',
 		            // 'matchHeight.js'		: 'matchHeight/jquery.matchHeight.js',
